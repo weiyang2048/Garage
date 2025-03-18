@@ -1,0 +1,22 @@
+# Windows
+## OS
+Setting : Win + I
+File Explorer : Win + E
+Notification : Win + N
+Clipboard : Win + V
+
+Change Keyboard Language : alt + shift
+
+
+## PowerToys
+Advanced Paste : win + shift + v 
+FancyZones : dragging + shift
+
+## WGesture
+Search selected : SELECT DRAG UP DOWN
+
+# Browser
+Jump to tab # : ctrl + # 
+
+# Cursor
+Jump to tab # : alt + #
