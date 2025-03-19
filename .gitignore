@@ -6,3 +6,5 @@ Personal
 *_pycache_*
 *egg-info*
 Notebooks/
+*.html
+*.ipynb

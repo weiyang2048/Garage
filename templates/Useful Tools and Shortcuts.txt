@@ -17,6 +17,11 @@ Search selected : SELECT DRAG UP DOWN
 
 # Browser
 Jump to tab # : ctrl + # 
+## Browser Extensions
+Bordless Window
+Text to Speech
+Simplify Copilot
+Hide n'Seek
 
 # Cursor
 Jump to tab # : alt + #
