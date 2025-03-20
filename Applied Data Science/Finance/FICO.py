@@ -2,6 +2,8 @@ import os
 import sweetviz as sv
 from ydata_profiling import ProfileReport
 import pandas as pd
+from sklearn.feature_selection import SelectKBest, f_classif, chi2
+import numpy as np
 
 import logging
 
@@ -20,6 +22,7 @@ class FICO:
     Methods:
         EDA(use="sweetviz"): Performs exploratory data analysis using Sweetviz or ydata_profiling.
         calculate_credit_scores(): Calculates credit scores based on the FICO formula.
+        select_features(X, y, k1=3, k2=2): Selects features using SelectKBest for both numerical and categorical features separately.
     """
 
     def __init__(self, data):
@@ -83,6 +86,50 @@ class FICO:
             credit_scores.append(credit_score)
 
         self.data["Credit Score"] = credit_scores
+
+    def select_features(self, X, y, k1=3, k2=2):
+        """
+        Selects features using SelectKBest for both numerical and categorical features separately.
+        
+        Parameters:
+            X (pandas.DataFrame): Feature matrix
+            y (pandas.Series): Target variable
+            k1 (int): Number of numerical features to select
+            k2 (int): Number of categorical features to select
+            
+        Returns:
+            list: Selected feature names
+        """
+        # Separate numerical and categorical columns
+        numerical_features = X.select_dtypes(include=['int64', 'float64']).columns
+        categorical_features = X.select_dtypes(include=['object', 'category']).columns
+        
+        selected_features = []
+        
+        # Handle numerical features
+        if len(numerical_features) > 0:
+            selector_num = SelectKBest(score_func=f_classif, k=min(k1, len(numerical_features)))
+            X_num = X[numerical_features]
+            selector_num.fit(X_num, y)
+            
+            # Get selected numerical features
+            selected_num_features = X_num.columns[selector_num.get_support()].tolist()
+            selected_features.extend(selected_num_features)
+            
+        # Handle categorical features
+        if len(categorical_features) > 0:
+            selector_cat = SelectKBest(score_func=chi2, k=min(k2, len(categorical_features)))
+            X_cat = X[categorical_features]
+            selector_cat.fit(X_cat, y)
+            
+            # Get selected categorical features
+            selected_cat_features = X_cat.columns[selector_cat.get_support()].tolist()
+            selected_features.extend(selected_cat_features)
+            
+        logger.info(f"Selected numerical features: {selected_num_features if 'selected_num_features' in locals() else []}")
+        logger.info(f"Selected categorical features: {selected_cat_features if 'selected_cat_features' in locals() else []}")
+        
+        return selected_features
 
 def main():
     """
