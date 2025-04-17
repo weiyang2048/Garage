@@ -9,7 +9,9 @@ logger = logging.getLogger(__name__)
 
 def EDA(data, use="sweetviz", compare=None):
     """
-    EDA(
+    * EDA(data,use="sweetviz")
+    * EDA(data,use="ydata")
+    * EDA(
         data,
         use="sweetviz",
         compare={
